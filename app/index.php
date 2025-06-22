@@ -51,7 +51,6 @@ $cart = $_SESSION['cart'] ?? [];
         <div class="bg-[#1a1a1a] rounded-lg shadow-md p-4 hover:shadow-lg transition">
             <img src="data:image/png;base64,<?= htmlspecialchars($product['gambar']) ?>" alt="<?= $product['nama_produk'] ?>" loading="lazy" class="w-full h-40 object-cover rounded mb-3">
             <h3 class="text-white text-sm font-semibold"><?= $product['nama_produk'] ?></h3>
-            <!-- <p class="text-gray-400 text-xs mt-1"><?= $product["description"] ?></p> -->
             <div class="mt-3 flex justify-between items-center text-sm">
                 <span class="text-blue-400 font-semibold">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
                 <form action="/cart/add" method="POST" class="mt-3">
@@ -81,10 +80,31 @@ $cart = $_SESSION['cart'] ?? [];
           $total += $subtotal;
       ?>
         <div class="border-b border-gray-700 pb-2">
-          <h3 class="text-sm font-semibold"><?= $item['product']['nama_produk'] ?></h3>
-          <p class="text-gray-400 text-xs">Qty: <?= $item['qty'] ?> x Rp <?= number_format($item['product']['harga'], 0, ',', '.') ?></p>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-blue-400">Rp <?= number_format($subtotal, 0, ',', '.') ?></span>
+          <h3 class="text-sm font-semibold mb-1"><?= $item['product']['nama_produk'] ?></h3>
+
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <!-- Tombol Kurang -->
+              <form action="/cart/decrease" method="POST" class="inline">
+                <input type="hidden" name="product_id" value="<?= $id ?>">
+                <button type="submit" class="px-2 py-1 text-sm bg-gray-700 rounded hover:bg-gray-600">−</button>
+              </form>
+
+              <!-- Jumlah -->
+              <span class="text-gray-300 text-sm"><?= $item['qty'] ?></span>
+
+              <!-- Tombol Tambah -->
+              <form action="/cart/increase" method="POST" class="inline">
+                <input type="hidden" name="product_id" value="<?= $id ?>">
+                <button type="submit" class="px-2 py-1 text-sm bg-gray-700 rounded hover:bg-gray-600">+</button>
+              </form>
+            </div>
+
+            <!-- Harga -->
+            <span class="text-blue-400 text-sm">Rp <?= number_format($subtotal, 0, ',', '.') ?></span>
+          </div>
+
+          <div class="flex justify-end">
             <a href="/cart/remove?id=<?= $id ?>" class="text-red-400 text-xs hover:underline">Hapus</a>
           </div>
         </div>
@@ -96,6 +116,7 @@ $cart = $_SESSION['cart'] ?? [];
       <?php endif; ?>
     </div>
   </div>
+
 
   <!-- Modal Checkout -->
   <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden px-4">

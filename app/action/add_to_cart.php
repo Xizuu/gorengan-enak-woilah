@@ -1,13 +1,5 @@
 <?php
-// include_once "temp_data.php";
-// require_once BASE_APP . '/temp_data.php';
-require_once "./core/session.php";
-
 global $koneksi;
-if (!is_logged_in()) {
-  redirect("/login");
-  exit;
-}
 
 $id = $_POST['product_id'] ?? null;
 if ($id) {
