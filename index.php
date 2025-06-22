@@ -40,20 +40,9 @@ add_route("/logout", function() {
 }, 'get');
 
 add_route("/cart", function() {
-    include_once __DIR__ . BASE_APP . "/cart.php";
-}, 'get');
-add_route("/cart/add", function() {
-    include_once __DIR__ . BASE_APP . "/action/add_to_cart.php";
+    include_once __DIR__ . BASE_APP . "/action/cart.php";
 }, 'post');
-add_route("/cart/remove", function() {
-    include_once __DIR__ . BASE_APP . "/action/remove_from_cart.php";
-}, 'get');
-add_route("/cart/increase", function() {
-    include_once __DIR__ . BASE_APP . "/action/cart_increase.php";
-}, 'post');
-add_route("/cart/decrease", function() {
-    include_once __DIR__ . BASE_APP . "/action/cart_decrease.php";
-}, 'post');
+
 add_route("/cart/checkout", function() {
     include_once __DIR__ . BASE_APP . "/action/proses_bayar.php";
 }, ['post', 'get']);

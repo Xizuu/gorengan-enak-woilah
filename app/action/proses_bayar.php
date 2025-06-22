@@ -1,39 +1,48 @@
 <?php
-require_once "./core/session.php";
+header('Content-Type: application/json');
 
 global $koneksi;
-if (!is_logged_in()) {
-  redirect("/login");
-  exit;
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["error" => "Method not allowed"]);
+    exit;
 }
 
-$items = $_SESSION["cart"] ?? [];
+$input = json_decode(file_get_contents('php://input'), true);
+$items = $input["cart"] ?? [];
 
-function generateRandomString($length = 10) {
+function generateRandomString($length = 8) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
     $randomString = '';
-
     for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        $randomString .= $characters[random_int(0, strlen($characters) - 1)];
     }
-
     return $randomString;
 }
 
 foreach ($items as $item) {
-    $order_id = generateRandomString(8);
-    $id = $item["product"]["id"];
+    $order_id = generateRandomString();
+    $id = $item["id"];
     $qty = $item["qty"];
-    $total = $item['qty'] * $item['product']['harga'];
+    $total = $qty * $item["price"];
 
-    $stmt_item = mysqli_prepare($koneksi, "INSERT INTO riwayat (id, id_produk, total_harga, kuantitas) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt_item, "siii", $order_id, $id, $total, $qty);
-    mysqli_stmt_execute($stmt_item);
+    $stmt = mysqli_prepare($koneksi, "INSERT INTO riwayat (id, id_produk, total_harga, kuantitas) VALUES (?, ?, ?, ?)");
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(["error" => "Prepare failed: " . mysqli_error($koneksi)]);
+        exit;
+    }
+
+    mysqli_stmt_bind_param($stmt, "siii", $order_id, $id, $total, $qty);
+    mysqli_stmt_execute($stmt);
+
+    if (mysqli_stmt_errno($stmt)) {
+        http_response_code(500);
+        echo json_encode(["error" => mysqli_stmt_error($stmt)]);
+        exit;
+    }
 }
 
-unset($_SESSION["cart"]);
-
-echo "<script>alert('Berhasil melakukan checkout')</script>";
-echo "<script>window.location.href = '/'</script>";
+echo json_encode(["success" => true]);
 exit;
