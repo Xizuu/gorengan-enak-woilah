@@ -1,0 +1,47 @@
+/* Tailwind-style overrides untuk DataTables */
+.dataTables_wrapper .dataTables_filter input {
+  background-color: #121212;
+  border: 1px solid #4b5563;
+  color: #d1d5db;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border: 1px solid #4b5563;
+  padding: 0.25rem 0.5rem;
+  margin: 0 0.25rem;
+  border-radius: 0.25rem;
+  color: #9ca3af;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #374151;
+  color: white;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  background-color: #121212;
+  border: 1px solid #4b5563;
+  color: #d1d5db;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.dataTables_wrapper .dataTables_info {
+  color: #9ca3af;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: 1rem;
+}
+
+/* Custom scrollbar for table container */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 10px;
+}
