@@ -1,21 +1,30 @@
 <?php
-include_once "temp_data.php";
+// include_once "temp_data.php";
 // require_once BASE_APP . '/temp_data.php';
+global $koneksi;
 
 $id = $_POST['product_id'] ?? null;
+if ($id) {
+  // Hindari SQL injection dengan prepared statements
+  $stmt = mysqli_prepare($koneksi, "SELECT * FROM produk WHERE id = ?");
+  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $product = mysqli_fetch_assoc($result); // Ambil data produk sebagai array
 
-if ($id && isset($products[$id])) {
-  if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-  }
+  if ($product) {
+    if (!isset($_SESSION['cart'])) {
+      $_SESSION['cart'] = [];
+    }
 
-  if (isset($_SESSION['cart'][$id])) {
-    $_SESSION['cart'][$id]['qty'] += 1;
-  } else {
-    $_SESSION['cart'][$id] = [
-      'product' => $products[$id],
-      'qty' => 1
-    ];
+    if (isset($_SESSION['cart'][$id])) {
+      $_SESSION['cart'][$id]['qty'] += 1;
+    } else {
+      $_SESSION['cart'][$id] = [
+        'product' => $product,
+        'qty' => 1
+      ];
+    }
   }
 }
 

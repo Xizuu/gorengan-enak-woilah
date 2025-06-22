@@ -124,9 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <!-- <i class="far fa-window-maximize text-lg"></i> -->
         <span>Dashboard</span>
       </div>
-      <button aria-label="Toggle dark mode" class="p-2 rounded border border-gray-700 hover:border-gray-500">
-        <i class="fas fa-moon text-gray-300"></i>
-      </button>
     </header>
 
     <section class="bg-[#18181b] shadow-lg rounded-xl p-6 flex flex-col flex-1 max-w-full" style="min-width: 0">

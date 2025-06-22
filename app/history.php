@@ -1,4 +1,16 @@
+<?php
+global $koneksi;
 
+$orders = mysqli_query($koneksi, "SELECT 
+  riwayat.id AS id_riwayat,
+  produk.nama_produk,
+  riwayat.total_harga,
+  riwayat.kuantitas,
+  riwayat.created_at
+FROM riwayat
+JOIN produk ON riwayat.id_produk = produk.id;
+");
+?>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -80,9 +92,6 @@
         <!-- <i class="far fa-window-maximize text-lg"></i> -->
         <span>Dashboard</span>
       </div>
-      <button aria-label="Toggle dark mode" class="p-2 rounded border border-gray-700 hover:border-gray-500">
-        <i class="fas fa-moon text-gray-300"></i>
-      </button>
     </header>
 
     <section
@@ -101,25 +110,48 @@
                 No
               </th>
               <th class="px-4 py-3 cursor-pointer select-none">
+                ID Invoice
+              </th>
+              <th class="px-4 py-3 cursor-pointer select-none">
                 Jenis Produk
               </th>
               <th class="px-4 py-3 cursor-pointer select-none">
-                Harga
+                Total Harga
+              </th>
+              <th class="px-4 py-3 cursor-pointer select-none">
+                Kuantitas
+              </th>
+              <th class="px-4 py-3 cursor-pointer select-none">
+                Tanggal Pembelian
               </th>
             </tr>
           </thead>
           <tbody>
             <!-- User rows -->
-            <tr class="border-b border-gray-800 hover:bg-gray-800 transition">
-              <td class="px-4 py-3">
-                1
-              </td>
-              <td class="px-4 py-3 flex items-center space-x-3">
-                <p class="font-semibold text-white leading-tight">Es Milo Hangat</p>
-              </td>
-              <td class="px-4 py-3">Rp 5,000</td>
+              <?php $no = 1; foreach($orders as $order) : ?>
 
-            </tr>
+                <tr class="border-b border-gray-800 hover:bg-gray-800 transition">
+                  <td class="px-4 py-3">
+                    <?= $no++ ?>
+                  </td>
+                  <td class="px-4 py-3">
+                    <?= $order["id_riwayat"] ?>
+                  </td>
+                  <td class="px-4 py-3">
+                    <?= $order["nama_produk"] ?>
+                  </td>
+                  <td class="px-4 py-3">
+                    Rp <?= number_format($order["total_harga"]) ?>
+                  </td>
+                  <td class="px-4 py-3">
+                    <?= $order["kuantitas"] ?>
+                  </td>
+                  <td class="px-4 py-3">
+                    <?= $order["created_at"] ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+
           </tbody>
         </table>
       </div>

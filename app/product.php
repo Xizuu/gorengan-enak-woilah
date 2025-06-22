@@ -83,9 +83,6 @@ $products = mysqli_query($koneksi, "SELECT * FROM produk");
         <!-- <i class="far fa-window-maximize text-lg"></i> -->
         <span>Dashboard</span>
       </div>
-      <button aria-label="Toggle dark mode" class="p-2 rounded border border-gray-700 hover:border-gray-500">
-        <i class="fas fa-moon text-gray-300"></i>
-      </button>
     </header>
 
     <section

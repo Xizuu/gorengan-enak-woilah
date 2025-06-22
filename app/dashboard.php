@@ -1,4 +1,6 @@
-
+<?php
+global $koneksi;
+?>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -80,23 +82,32 @@
         <i class="far fa-window-maximize text-lg"></i>
         <span>Dashboard</span>
       </div>
-      <button aria-label="Toggle dark mode" class="p-2 rounded border border-gray-700 hover:border-gray-500">
-        <i class="fas fa-moon text-gray-300"></i>
-      </button>
     </header>
 
     <!-- Cards top row -->
     <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-  <!-- Card Jumlah Produk -->
+    <!-- Card Jumlah Produk -->
       <div class="bg-[#1a1a1a] rounded-lg h-36 p-4 flex flex-col justify-between">
         <h3 class="text-gray-400 text-sm">Jumlah Produk</h3>
-        <p class="text-white text-3xl font-bold">12</p>
+        <p class="text-white text-3xl font-bold">
+          <?php
+            $data = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM produk");
+            $result = mysqli_fetch_assoc($data);
+            echo $result["total"] ?? 0;
+          ?>
+        </p>
       </div>
 
       <!-- Card Jumlah Pendapatan -->
       <div class="bg-[#1a1a1a] rounded-lg h-36 p-4 flex flex-col justify-between">
         <h3 class="text-gray-400 text-sm">Jumlah Pendapatan</h3>
-        <p class="text-green-400 text-3xl font-bold">Rp 325.000</p>
+        <p class="text-green-400 text-3xl font-bold">Rp 
+          <?php
+            $data = mysqli_query($koneksi, "SELECT SUM(total_harga) AS total_seluruh_harga FROM riwayat");
+            $result = mysqli_fetch_assoc($data);
+            echo number_format($result['total_seluruh_harga'], 0, ',', '.') ?? 0;
+          ?>
+        </p>
       </div>
     </section>
   </div>

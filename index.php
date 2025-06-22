@@ -45,6 +45,9 @@ add_route("/cart/add", function() {
 add_route("/cart/remove", function() {
     include_once __DIR__ . BASE_APP . "/action/remove_from_cart.php";
 }, 'get');
+add_route("/cart/checkout", function() {
+    include_once __DIR__ . BASE_APP . "/action/proses_bayar.php";
+}, ['post', 'get']);
 
 add_route("/produk", function() {
     include_once __DIR__ . BASE_APP . "/product.php";
