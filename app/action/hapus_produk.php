@@ -2,10 +2,10 @@
 require_once "./core/session.php";
 
 global $koneksi;
-// if (!is_logged_in()) {
-//     redirect("/login");
-//     exit;
-// }
+if (!is_logged_in()) {
+    redirect("/login");
+    exit;
+}
 
 $id = $_GET['id'] ?? null;
 

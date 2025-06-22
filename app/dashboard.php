@@ -1,5 +1,11 @@
 <?php
+require_once "./core/session.php";
+
 global $koneksi;
+if (!is_logged_in()) {
+  redirect("/login");
+  exit;
+}
 ?>
 <html lang="en">
 <head>
@@ -49,8 +55,7 @@ global $koneksi;
       <div class="flex items-center gap-3 cursor-pointer" id="userToggle">
         <div class="bg-blue-900 rounded-md w-6 h-6 flex items-center justify-center font-semibold select-none">CR</div>
         <div class="leading-tight">
-          <p class="text-white font-semibold text-[10px]">Carlos RGL</p>
-          <p class="text-[9px]">contact@carlosrgl.com</p>
+          <p class="text-white font-semibold text-[10px]"><?= $_SESSION["username"] ?></p>
         </div>
         <button aria-label="More options" class="ml-auto text-gray-400 hover:text-white">
           <i class="fas fa-chevron-down text-xs"></i>
@@ -59,10 +64,10 @@ global $koneksi;
 
       <!-- Dropdown ke atas -->
       <div id="dropdownMenu" class="absolute right-0 bottom-full mb-2 w-36 bg-[#1f1f1f] rounded shadow-lg border border-gray-700 hidden z-50">
-        <button class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700">
+        <a type="button" href="/logout" class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700">
           <i class="fa-solid fa-right-from-bracket"></i>
           Logout
-        </button>
+        </a>
       </div>
     </div>
   </aside>

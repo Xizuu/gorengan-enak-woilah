@@ -33,8 +33,11 @@ add_route("/dashboard", function() {
 }, 'get');
 
 add_route("/login", function() {
-    echo "Login page";
+    include_once __DIR__ . BASE_APP . "/login.php";
 }, ['get', 'post']);
+add_route("/logout", function() {
+    include_once __DIR__ . BASE_APP . "/logout.php";
+}, 'get');
 
 add_route("/cart", function() {
     include_once __DIR__ . BASE_APP . "/cart.php";
